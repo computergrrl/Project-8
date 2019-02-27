@@ -1,6 +1,6 @@
 <?php
-require_once 'inc/bootstrap.php';
-  if(request()->cookies->has('access_token')) {
+require_once 'inc/functions_auth.php';
+  if(isAuthenticated()) {
     echo "Logged in";
       }
 
