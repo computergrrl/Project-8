@@ -1,5 +1,9 @@
 <?php
 require_once 'inc/bootstrap.php';
+  if(request()->cookies->has('access_token')) {
+    echo "Logged in";
+      }
+
 $pageTitle = "Time Tracker";
 $page = null;
 include 'inc/header.php';

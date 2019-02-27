@@ -2,6 +2,10 @@
 require_once __DIR__ . '/../vendor/autoload.php';
 require_once __DIR__ . '/functions_tasks.php';
 
+//create Dotenv object for easy use of ENV variables
+$dotenv =new Dotenv\Dotenv(__DIR__);
+$dotenv->load();
+
 try {
     $db = new PDO("sqlite:".__DIR__."/todo.db");
     $db->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
@@ -26,8 +30,13 @@ function request() {
 }
 
 // 3. redirect \Symfony\Component\HttpFoundation\Response
-function redirect($path) {
+function redirect($path, $extra =[]) {
     $response = \Symfony\Component\HttpFoundation\Response::create(null, \Symfony\Component\HttpFoundation\Response::HTTP_FOUND, ['Location' => $path]);
+          if(key_exists('cookies' , $extra)) {
+              foreach($extra['cookies'] as $cookie) {
+                $response->headers->setCookie($cookie);
+              }
+          }
     $response->send();
     exit;
 }

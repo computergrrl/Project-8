@@ -59,8 +59,16 @@
         <ul class="nav">
             <li class="nav-item task<?php if ($page == "account") { echo " on"; } ?>"><a class="nav-link" href="/account.php">My Account</a></li>
             <li class="nav-item tasks"><a class="nav-link" href="/inc/doLogout.php">Logout</a></li>
-            <li class="nav-item tasks<?php if ($page == "login") { echo " on"; } ?>"><a class="nav-link" href="/login.php">Login</a></li>
-            <li class="nav-item tasks<?php if ($page == "register") { echo " on"; } ?>"><a class="nav-link" href="/register.php">Register</a></li>
+            <li class="nav-item tasks<?php if ($page == "login") { echo " on"; }?>">
+							<?php if(request()->cookies->has('access_token')) {
+								 echo '<span class="nav-link"> Welcome</span>';} else {
+							echo '<a class="nav-link" href="/login.php">Login</a>'; } ?>
+						</li>
+            <li class="nav-item tasks<?php if ($page == "register") { echo " on"; } ?>">
+							<?php if(request()->cookies->has('access_token')) {
+								 echo '&nbsp; &nbsp;' ;} else {
+							   echo '<a class="nav-link" href="/register.php">Register</a>'; } ?>
+							</li>
         </ul>
     </div>
   </header>

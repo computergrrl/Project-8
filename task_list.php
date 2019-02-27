@@ -1,5 +1,10 @@
 <?php
 require 'inc/bootstrap.php';
+require 'inc/functions_auth.php';
+
+if(!isAuthenticated()) {
+    redirect('login.php');
+}
 
 $pageTitle = "Task List | Time Tracker";
 $page = "tasks";

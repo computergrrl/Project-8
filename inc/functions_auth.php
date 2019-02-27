@@ -25,11 +25,20 @@ function getUser($username) {
 
 
 function verifyLogin($username , $password) {
+//check database to see if user exists
 $pw =  getuser($username);
+//if no user with that username exists then return false
+      if(empty($pw)) {
+        return false;
+      }
+      if(password_verify($password, $pw['password'])) {
+      return true;
+    }
+  }
 
-if(password_verify($password, $pw['password'])) {
-  echo "You've logged in!";
-} else {
-      echo "Login was unsuccessful!!!";
-}
+//function to check if user is logged in (authenticated)
+function isAuthenticated() {
+      if (!request()->cookies->has('access_token')) {
+          return false;
+      }
 }
