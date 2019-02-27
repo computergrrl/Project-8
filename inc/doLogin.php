@@ -14,7 +14,7 @@ if(!verifyLogin($username, $password)) {
 }
 
 //set expiration variable for half an hour from now
-$expTime = time() + 1800;
+$expTime = time() + 120;
 
 //creating the JWT
 $jwt = \Firebase\JWT\JWT::encode([

@@ -41,4 +41,13 @@ function isAuthenticated() {
       if (!request()->cookies->has('access_token')) {
           return false;
       }
+      else {
+        return true;
+      }
+}
+
+function requireAuth() {
+    if (!isAuthenticated()) {
+        redirect('login.php');
+    }
 }
