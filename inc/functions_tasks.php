@@ -45,9 +45,10 @@ function createTask($data)
     global $db;
 
     try {
-        $statement = $db->prepare('INSERT INTO tasks (task, status) VALUES (:task, :status)');
+        $statement = $db->prepare('INSERT INTO tasks (task, status, user_id) VALUES (:task, :status, :user_id)');
         $statement->bindParam('task', $data['task']);
         $statement->bindParam('status', $data['status']);
+        $statement->bindParam('user_id', $data['user_id']);
         $statement->execute();
     } catch (Exception $e) {
         echo "Error!: " . $e->getMessage() . "<br />";

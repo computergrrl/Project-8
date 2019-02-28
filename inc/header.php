@@ -48,7 +48,7 @@
   		<h1>
         <a class="logo" href="./">
           <svg viewbox="0 0 64 64" class="logo-icon"><use xlink:href="#logo_icon"></use></svg>
-          <span class="logo-name">Personal Todo App</span>
+          <span class="logo-name">Personal Todo App </span>
         </a>
       </h1>
 
@@ -61,7 +61,7 @@
             <li class="nav-item tasks"><a class="nav-link" href="/inc/doLogout.php">Logout</a></li>
             <li class="nav-item tasks<?php if ($page == "login") { echo " on"; }?>">
 							<?php if(isAuthenticated()) {
-								 echo '<span class="nav-link"> Welcome</span>';} else {
+								 echo '<span class="nav-link"> Welcome ' .ucfirst($getuser['username']) . '!</span>';} else {
 							echo '<a class="nav-link" href="/login.php">Login</a>'; } ?>
 						</li>
             <li class="nav-item tasks<?php if ($page == "register") { echo " on"; } ?>">

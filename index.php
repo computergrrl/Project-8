@@ -2,14 +2,13 @@
 require_once 'inc/functions_auth.php';
 if (isAuthenticated()) {
   $getuser = getUserById();
-var_dump($getuser);
 }
 $pageTitle = "Time Tracker";
 $page = null;
 include 'inc/header.php';
 ?>
     <div class="col-container actions-container">
-        <h1>Welcome</h1>
+        <h1>Welcome <?php if(isAuthenticated()) {echo " ". ucwords($getuser['username']);} ?></h1>
       <p class="actions-copy">What would you like to do today?</p>
       <div class="actions-wrapper">
         <ul class="actions">
@@ -29,12 +28,15 @@ include 'inc/header.php';
               Add Task
             </a>
           </li>
-          <li class="actions-item">
+          <?php if(isAuthenticated()) {
+             echo "</div>";
+           } else {
+          echo '<li class="actions-item">
             <a class="actions-link" href="register.php">
               <span class="actions-icon">
                 <svg viewbox="0 0 64 64"><use xlink:href="#user_icon"></use></svg>
               </span>
                 Register
-		</div>
+		</div>';} ?>
 
 <?php include("inc/footer.php"); ?>

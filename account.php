@@ -1,6 +1,7 @@
 <?php
 require_once 'inc/functions_auth.php';
-
+requireAuth();
+$getuser = getUserById();
 $pageTitle = "My Account | Time Tracker";
 $page = 'account';
 
@@ -8,7 +9,8 @@ include 'inc/header.php';
 ?>
 <div class="col-container page-container">
     <div class="col col-70-md col-60-lg col-center">
-        <h2 class="form-signin-heading">My Account</h2>
+        <h2 class="form-signin-heading">Account for <?php if(isAuthenticated()) {
+          echo " " .ucwords($getuser['username']); } ?>  </h2>
         <h4>Change Password</h4>
 
         <form class="form-container" method="post" action="/inc/changePassword.php">

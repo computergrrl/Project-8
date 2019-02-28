@@ -1,6 +1,7 @@
 <?php
 require 'inc/functions_auth.php';
 requireAuth();
+$getuser = getUserById();
 
 $pageTitle = "Task | Time Tracker";
 $page = "task";
@@ -32,6 +33,7 @@ include 'inc/header.php';
                     <tr>
                         <th><label for="task">Task<span class="required">*</span></label></th>
                         <td><input type="text" id="task" name="task" value="<?php echo htmlspecialchars($task); ?>" /></td>
+                        <input type="hidden" name="user_id" value="<?php echo $getuser['id']; ?>">
                     </tr>
                    </table>
                 <?php

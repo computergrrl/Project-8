@@ -26,10 +26,10 @@ function getUserById() {
   $user_id = decodeJWT('sub');
 
   global $db;
-  $stmt = $db->prepare("SELECT * FROM users WHERE id = :id");
-  $stmt->bindParam('id', $user_id);
-  $stmt->execute();
-  return $stmt->fetch(PDO::FETCH_ASSOC);
+  $sql = $db->prepare("SELECT * FROM users WHERE id = :id");
+  $sql->bindParam('id', $user_id);
+  $sql->execute();
+  return $sql->fetch(PDO::FETCH_ASSOC);
 
 }
 
@@ -102,7 +102,7 @@ function createJWT($username) {
 in order to return a specific element from the JWT claims array*******/
 function decodeJWT($claim = null) {
 
-          \Firebase\JWT\JWT::$leeway = 1;
+          //\Firebase\JWT\JWT::$leeway = 1;
           $jwt = \Firebase\JWT\JWT::decode(
         request()->cookies->get('access_token'),
         getenv('SECRET_KEY'),
