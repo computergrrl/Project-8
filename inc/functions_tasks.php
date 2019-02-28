@@ -17,13 +17,13 @@ function getTasks($where = null)
     }
     return $tasks;
 }
-function getIncompleteTasks()
+function getIncompleteTasks($user_id)
 {
-    return getTasks('status=0');
+    return getTasks("status=0 AND user_id=$user_id");
 }
-function getCompleteTasks()
+function getCompleteTasks($user_id)
 {
-    return getTasks('status=1');
+    return getTasks("status=1 AND user_id=$user_id");
 }
 function getTask($task_id)
 {

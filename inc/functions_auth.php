@@ -22,6 +22,16 @@ function getUser($username) {
 
 }
 
+function getUserById() {
+  $user_id = decodeJWT('sub');
+
+  global $db;
+  $stmt = $db->prepare("SELECT * FROM users WHERE id = :id");
+  $stmt->bindParam('id', $user_id);
+  $stmt->execute();
+  return $stmt->fetch(PDO::FETCH_ASSOC);
+
+}
 
 function verifyLogin($username , $password) {
 //check database to see if user exists
@@ -35,7 +45,11 @@ $pw =  getuser($username);
     }
   }
 
-//function to check if user is logged in (authenticated)
+
+
+
+/* function to test if valid cookie exists. If it does the user
+is considered authenticated and function returns true */
 function isAuthenticated() {
       if (!request()->cookies->has('access_token')) {
           return false;
@@ -45,13 +59,18 @@ function isAuthenticated() {
       }
 }
 
+/*  function for requiring authorization. If user is NOT authorized then
+they're redirected to login page  */
 function requireAuth() {
+    //if user is NOT logged in then redirect them to the login page
     if (!isAuthenticated()) {
-      $accessToken = new \Symfony\Component\HttpFoundation\Cookie("access_token", "Expired", time()-3600, '/', getenv('COOKIE_DOMAIN'));
+      $accessToken = new \Symfony\Component\HttpFoundation\Cookie(
+        "access_token", "Expired", time()-3600, '/', getenv('COOKIE_DOMAIN'));
       redirect('/login.php', ['cookies' => [$accessToken]]);
     }
 }
 
+//function for creating a JWT
 function createJWT($username) {
 
         $user = getUser($username);
@@ -77,4 +96,60 @@ function createJWT($username) {
               the $accessToken array with redirect****/
         redirect('/',['cookies' => [$accessToken]]);
 
+}
+
+/***  Function to decode the JWT *** Optional "$claim" parameter may be passed
+in order to return a specific element from the JWT claims array*******/
+function decodeJWT($claim = null) {
+
+          \Firebase\JWT\JWT::$leeway = 1;
+          $jwt = \Firebase\JWT\JWT::decode(
+        request()->cookies->get('access_token'),
+        getenv('SECRET_KEY'),
+        ['HS256']
+    );
+
+    if($claim === null) {
+        return $jwt;
+    }
+
+    else return $jwt->{$claim};
+}
+/****************************************************************************
+FOLLOWING 2 FUNCTIONS COPIED DIRECTLY FROM BOOK-VOTING APP
+IN THE TREEHOUSE USER AUTHENTICATION COURSE
+******************************************************************/
+function display_errors() {
+    global $session;
+
+    if (!$session->getFlashBag()->has('error')) {
+        return;
+    }
+
+    $messages = $session->getFlashBag()->get('error');
+
+    $response = '<span class="error">';
+    foreach ($messages as $message) {
+        $response .= "{$message}<br />";
+    }
+    $response .= '</span>';
+
+    return $response;
+}
+function display_success() {
+    global $session;
+
+    if(!$session->getFlashBag()->has('success')) {
+        return;
+    }
+
+    $messages = $session->getFlashBag()->get('success');
+
+    $response = '<span class="success>"';
+    foreach($messages as $message ) {
+        $response .= "{$message}<br>";
+    }
+    $response .= '</span>';
+
+    return $response;
 }

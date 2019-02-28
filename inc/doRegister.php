@@ -8,6 +8,7 @@ $confirmPassword = request()->get('confirm_password');
 $hashpw = password_hash($password, PASSWORD_DEFAULT);
 
 if ($password != $confirmPassword) {
+    $session->getFlashBag()->add('error', 'Passwords entered don\'t match!  Please try again');
     redirect('../register.php');
 }  else {
   //add user to database

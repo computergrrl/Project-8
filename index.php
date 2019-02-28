@@ -1,16 +1,15 @@
 <?php
 require_once 'inc/functions_auth.php';
-  if(isAuthenticated()) {
-    echo "Logged in";
-      }
-
+if (isAuthenticated()) {
+  $getuser = getUserById();
+var_dump($getuser);
+}
 $pageTitle = "Time Tracker";
 $page = null;
 include 'inc/header.php';
 ?>
     <div class="col-container actions-container">
-
-      <h1>Welcome</h1>
+        <h1>Welcome</h1>
       <p class="actions-copy">What would you like to do today?</p>
       <div class="actions-wrapper">
         <ul class="actions">

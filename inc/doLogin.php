@@ -6,6 +6,7 @@ $password = request()->get('password') ;
 $user = getUser($username);
 
 if(empty($user)) {
+    $session->getFlashBag()->add('error', 'User was not found');
     redirect('../login.php');
 }
 
