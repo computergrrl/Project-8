@@ -1,5 +1,6 @@
 # Project-8 - User Authentication
-# Add User authentication to a Todo app
+
+**************  Add User authentication to a Todo app ****************
 
 1. Allows new users to register for the application. User's passwords are stored as a hash.
 2. Ability for a user to login to the application
@@ -9,7 +10,7 @@
 6. Only show tasks belonging to the logged in user
 7. ONLY the home, registration, and login pages should be accessible for unauthenticated visitors. All other pages should require authentication.
 
-*************       EXTRAS           *****************
+************************     EXTRAS       ****************************
 
 -When logging in, JWT is created using "createJWT" function .
 
