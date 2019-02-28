@@ -10,5 +10,8 @@ $hashpw = password_hash($password, PASSWORD_DEFAULT);
 if ($password != $confirmPassword) {
     redirect('../register.php');
 }  else {
+  //add user to database
     createUser($username, $hashpw);
+    createJWT($username);
+
 }

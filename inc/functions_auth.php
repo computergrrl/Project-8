@@ -9,7 +9,6 @@ $stmt->bindParam('username', $username );
 $stmt->bindParam('password', $password );
 $stmt->execute();
 
-redirect('../index.php');
 
 }
 
@@ -51,4 +50,31 @@ function requireAuth() {
       $accessToken = new \Symfony\Component\HttpFoundation\Cookie("access_token", "Expired", time()-3600, '/', getenv('COOKIE_DOMAIN'));
       redirect('/login.php', ['cookies' => [$accessToken]]);
     }
+}
+
+function createJWT($username) {
+
+        $user = getUser($username);
+
+      //set expiration variable for half an hour from now
+        $expTime = time() + 120;
+
+        //creating the JWT
+        $jwt = \Firebase\JWT\JWT::encode([
+            'iss' => request()->getBaseUrl(),
+            'sub' => "{$user['id']}",
+            'exp' => $expTime,
+            'iat' => time(),
+            'nbf' => time(),
+        ], getenv("SECRET_KEY"),'HS256');
+
+         /*use Symfony HttpFoundation package to create cookie, and pass in the
+          newly created JWT*/
+        $accessToken = new Symfony\Component\HttpFoundation\Cookie(
+          'access_token', $jwt, $expTime, '/', getenv('COOKIE_DOMAIN'));
+
+        /**** redirect to the homepage and include
+              the $accessToken array with redirect****/
+        redirect('/',['cookies' => [$accessToken]]);
+
 }

@@ -1,5 +1,5 @@
 <?php
-require_once 'inc/bootstrap.php';
+require_once 'inc/functions_auth.php';
 
 $pageTitle = "Register | Time Tracker";
 $page = 'register';
