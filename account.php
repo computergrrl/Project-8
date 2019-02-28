@@ -12,6 +12,8 @@ include 'inc/header.php';
         <h2 class="form-signin-heading">Account for <?php if(isAuthenticated()) {
           echo " " .ucwords($getuser['username']); } ?>  </h2>
         <h4>Change Password</h4>
+        <?php echo '<h3>' . display_errors() . '</h3>';
+              echo '<h3>' . display_success() . '</h3>'; ?>
 
         <form class="form-container" method="post" action="/inc/changePassword.php">
             <table class="items">

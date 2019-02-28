@@ -1,6 +1,7 @@
 <?php
 require __DIR__ . "/bootstrap.php";
 
+//function to create a user upon registering
 function createUser($username, $password) {
 global $db;
 
@@ -12,6 +13,7 @@ $stmt->execute();
 
 }
 
+//function to get user info for user with specified username
 function getUser($username) {
   global $db;
   $sql = $db->prepare("SELECT * FROM users WHERE username = ?");
@@ -22,6 +24,7 @@ function getUser($username) {
 
 }
 
+//function to get the user by logged in id
 function getUserById() {
   $user_id = decodeJWT('sub');
 
@@ -45,7 +48,16 @@ $pw =  getuser($username);
     }
   }
 
+function updatePassword($password, $user_id) {
+    global $db;
+    $sql = $db->prepare("UPDATE users SET password = :password WHERE id=:user_id");
+    $sql->bindParam('password', $password);
+    $sql->bindParam('user_id', $user_id);
+    $sql->execute();
 
+    return true;
+
+}
 
 
 /* function to test if valid cookie exists. If it does the user
@@ -98,12 +110,11 @@ function createJWT($username) {
 
 }
 
-/***  Function to decode the JWT *** Optional "$claim" parameter may be passed
+/*  Function to decode the JWT ---   Optional "$claim" parameter may be passed
 in order to return a specific element from the JWT claims array*******/
 function decodeJWT($claim = null) {
 
-          //\Firebase\JWT\JWT::$leeway = 1;
-          $jwt = \Firebase\JWT\JWT::decode(
+        $jwt = \Firebase\JWT\JWT::decode(
         request()->cookies->get('access_token'),
         getenv('SECRET_KEY'),
         ['HS256']
@@ -145,7 +156,7 @@ function display_success() {
 
     $messages = $session->getFlashBag()->get('success');
 
-    $response = '<span class="success>"';
+    $response = '<span class="success">';
     foreach($messages as $message ) {
         $response .= "{$message}<br>";
     }
