@@ -88,7 +88,7 @@ function createJWT($username) {
         $user = getUser($username);
 
       //set expiration variable for half an hour from now
-        $expTime = time() + 120;
+        $expTime = time() + 3600;
 
         //creating the JWT
         $jwt = \Firebase\JWT\JWT::encode([
